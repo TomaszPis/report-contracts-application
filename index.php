@@ -2,6 +2,26 @@
 
 include_once 'functions/db.ini.php';
 
+
+//Przypisanie liczb do miesięcy w tablicy asocjacyjnej
+$months = array(1 => 'Styczeń', 
+			   2 => 'luty',
+			   3 => 'marzec', 
+			   4 => 'kwiecień', 
+			   5 => 'maj', 
+			   6 => 'czerwiec', 
+			   7 => 'lipiec',
+			   8 => 'sierpień', 
+			   9 => 'wrzesień', 
+			   10 => 'październik',
+			   11 => 'listopad',
+			   12 => 'grudzień');
+//Obecny miesiąc
+$curr_month =  Date('m');
+//Obcny miesiąc
+$curr_year = Date('Y');
+
+
 //usuwanie umówy
 if (isset($_POST['action']) and $_POST['action'] == 'Usuń umowę') {
 
@@ -272,24 +292,6 @@ if (isset($_GET['plk_self'])) {
 
 //Zarządzanie danymi
 
-//Przypisanie liczb do miesięcy w tablicy asocjacyjnej
-$months = array(1 => 'Styczeń', 
-			   2 => 'luty',
-			   3 => 'marzec', 
-			   4 => 'kwiecień', 
-			   5 => 'maj', 
-			   6 => 'czerwiec', 
-			   7 => 'lipiec',
-			   8 => 'sierpień', 
-			   9 => 'wrzesień', 
-			   10 => 'październik',
-			   11 => 'listopad',
-			   12 => 'grudzień');
-//Obecny miesiąc
-$curr_month =  Date('m');
-//Obcny miesiąc
-$curr_year = Date('Y');
-
 
 //Znajdź obecny miesiąc i przypisz do niego nazwę
 for ($i=1; $i < 13 ; $i++) { 
@@ -299,7 +301,259 @@ for ($i=1; $i < 13 ; $i++) {
 	}
 }
 
+if (isset($_POST['action']) and $_POST['action'] == 'Dodaj plan'){
 
+		$plan = $_POST['plan'];			//przesłana wartość planu
+		$id_month = $_POST['id_month'];	//id miesiąca
+		$id_plan = $_POST['id_plan'];	//id nazwy planu
+
+		//Pobierz id obecnego roku
+		$sql = "SELECT id_year FROM years
+				WHERE year = '{$curr_year}';";
+		$yea = pg_query($sql);
+		$y = pg_fetch_array($yea);
+
+		//Wprowadź wartość planu
+		$sql2 = "INSERT INTO month_plan VALUES
+				(DEFAULT, {$id_plan}, {$id_month}, {$y['id_year']}, {$plan});";
+		pg_query($sql2);
+
+		
+		header('Location: ?managment');
+		exit();
+
+
+}
+
+
+if (isset($_POST['action']) and $_POST['action'] == 'Dodaj urządzenie'){
+
+		$name_dev = $_POST['name_dev'];			//przesłana wartość planu
+		$category = $_POST['id_cat'];	//id nazwy planu
+
+
+		//Wprowadź urządzenie
+		$sql = "INSERT INTO devices VALUES
+				(DEFAULT, '{$name_dev}');";
+		pg_query($sql);
+
+		$sql2 = "SELECT * FROM devices
+				WHERE name_dev = '{$name_dev}';";
+		$dev = pg_query($sql2);
+		$d = pg_fetch_array($dev);
+
+		$id_dev = $d['id_dev'];
+
+		$sql3 = "INSERT INTO category_dev VALUES
+				({$id_dev}, {$category});";
+		pg_query($sql3);
+
+
+		
+		header('Location: ?managment');
+		exit();
+
+
+}
+
+if (isset($_GET['all_devices'])) {
+
+	$sql = "SELECT * FROM DEVICES a
+			INNER JOIN category_dev b
+			ON a.id_dev = b.id_dev
+			INNER JOIN categories c
+			ON b.id_cat = c.id_cat
+			WHERE c.id_cat = 1
+			ORDER BY a.name_dev;";
+	$tel = pg_query($sql);
+	$t   = pg_fetch_all($tel);
+
+	$sql2 = "SELECT * FROM DEVICES a
+			INNER JOIN category_dev b
+			ON a.id_dev = b.id_dev
+			INNER JOIN categories c
+			ON b.id_cat = c.id_cat
+			WHERE c.id_cat = 2
+			ORDER BY a.name_dev;";
+	$nks = pg_query($sql2);
+	$n   = pg_fetch_all($nks);
+
+	include_once 'managment/all_devices.php';
+	exit();
+
+}
+
+
+
+
+
+//Edutyj plan
+if (isset($_POST['action']) and $_POST['action'] == 'Edytuj'){
+
+	$id_m_plan = $_POST['id_m_plan'];
+
+	$sql = "SELECT b.plan_name, c.month, d.year, a.amount FROM month_plan a
+				INNER JOIN plans b
+				ON a.id_plan = b.id_plan
+				INNER JOIN months c
+				ON a.id_month = c.id_month
+				INNER JOIN years d
+				ON a.id_year = d.id_year
+				WHERE a.id_m_plan = {$id_m_plan} and c.month = '{$m}' and d.year = '{$curr_year}';";
+	$mon = pg_query($sql);
+	$mo = pg_fetch_array($mon);
+
+	$text = $mo['plan_name'] . ' na miesiąc ' . $m . '.';
+	include_once 'managment/edit.php';
+	exit();
+
+}
+
+if (isset($_POST['action']) and $_POST['action'] == 'Usuń'){
+
+	$id_m_plan = $_POST['id_m_plan'];
+
+	$sql = "DELETE FROM month_plan
+			WHERE id_m_plan = {$id_m_plan};";
+	pg_query($sql);
+	
+	
+	$message = 'Operacja usunięcia planu przebiegła pomyślnie';
+	header('Location: ?all_plans');
+	exit();
+
+}
+
+
+
+if (isset($_POST['action']) and $_POST['action'] == 'Zapisz'){
+
+	$id_m_plan = $_POST['id_m_plan'];
+	$plan = (int)$_POST['plan'];
+
+	if ($plan == 0) { //Ilość planu musi być liczbą
+		$message = 'Plany podajemy tylko w liczbach';
+		include 'managment/edit.php';
+		exit();
+	}
+
+	$sql = "UPDATE month_plan
+			SET amount = {$plan}
+			WHERE id_m_plan = {$id_m_plan};";
+	$sql = pg_query($sql);
+	
+
+	header('Location: ?managment');
+	exit();
+
+}
+
+//Wszystkie plany
+
+if (isset($_GET['all_plans'])) {
+
+	$sql = "SELECT a.id_m_plan, b.plan_name, c.month, d.year, a.amount FROM month_plan a
+				INNER JOIN plans b
+				ON a.id_plan = b.id_plan
+				INNER JOIN months c
+				ON a.id_month = c.id_month
+				INNER JOIN years d
+				ON a.id_year = d.id_year
+				WHERE b.plan_name = 'telefony'
+				ORDER BY d.year, c.month DESC;";
+	$tel = pg_query($sql);
+	$t   = pg_fetch_all($tel);
+
+	$sql2 = "SELECT a.id_m_plan, b.plan_name, c.month, d.year, a.amount FROM month_plan a
+				INNER JOIN plans b
+				ON a.id_plan = b.id_plan
+				INNER JOIN months c
+				ON a.id_month = c.id_month
+				INNER JOIN years d
+				ON a.id_year = d.id_year
+				WHERE b.plan_name = 'nks'
+				ORDER BY d.year, c.month DESC;";
+	$nks = pg_query($sql);
+	$n   = pg_fetch_all($nks);
+
+	include_once 'managment/all_plans.php';
+	exit();
+
+}
+
+
+if (isset($_GET['managment'])) {
+	
+
+
+	//pobranie nazw planów
+	try{
+	$sql = "SELECT * FROM plans ;";
+	$mon = pg_query($sql);
+	$mo   = pg_fetch_all($mon);
+	}
+	catch (Exception $e) {
+	}
+
+	//pobranie miesięcy
+	try{
+	$sql2 = "SELECT * FROM months ;";
+	$pla = pg_query($sql2);
+	$p   = pg_fetch_all($pla);
+	}
+	catch (Exception $e) {
+	}
+
+	try{
+		$sql3 = "SELECT a.id_m_plan, b.plan_name, c.month, d.year, a.amount FROM month_plan a
+				INNER JOIN plans b
+				ON a.id_plan = b.id_plan
+				INNER JOIN months c
+				ON a.id_month = c.id_month
+				INNER JOIN years d
+				ON a.id_year = d.id_year
+				WHERE b.plan_name = 'telefony' and c.month = '{$m}' and d.year = '{$curr_year}';";
+		$tel = pg_query($sql3);
+		$t   = pg_fetch_array($tel);
+		if($t == false){
+			$t['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
+		}
+	}
+	catch (Exception $e) {
+		
+	}
+
+	try{
+		$sql4 = "SELECT a.id_m_plan, b.plan_name, c.month, d.year, a.amount FROM month_plan a
+				INNER JOIN plans b
+				ON a.id_plan = b.id_plan
+				INNER JOIN months c
+				ON a.id_month = c.id_month
+				INNER JOIN years d
+				ON a.id_year = d.id_year
+				WHERE b.plan_name = 'nks' and c.month = '{$m}' and d.year = '{$curr_year}';";
+		$nks = pg_query($sql4);
+		$n   = pg_fetch_array($nks);
+		if($n == false){
+			$n['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
+		}
+	}
+	catch (Exception $e) {
+		
+	}
+
+	try{
+	$sql5 = "SELECT * FROM categories;";
+	$cat = pg_query($sql5);
+	$c   = pg_fetch_all($cat);
+	}
+	catch (Exception $e) {
+	}
+
+	include_once 'managment/managment.php';
+	exit();
+
+}
 //Pracownicy
 if (isset($_GET['workers'])) {
 	include_once 'workers.php';
@@ -355,7 +609,7 @@ catch (Exception $e) {
 }
 
 //Policz minimum do wypłaty premii
-if(is_string($t['amoumnt']) != false){
+if($t == true){
 	$min_plan = ceil($t['amount'] * 0.8);
 }
 else{
@@ -382,7 +636,7 @@ if($n == false){
 $date = $curr_year . '-' . $curr_month;
 
 for ($i=1; $i < 13; $i++) { 										
-	if((($i%2 == 1) AND ($i < 8 ) OR ($i%2 == 0) AND ($i > 7 )) AND ('0' . $i) == $curr_month){		 //Wybierz miesiące, które mają 31 dni
+	if((($i%2 == 1) AND ($i < 8 ) OR ($i%2 == 0) AND ($i > 8 )) AND ('0' . $i) == $curr_month){		 //Wybierz miesiące, które mają 31 dni
 
 
 			  $start_mon = $curr_year . '-' . $curr_month . '-' . '01';  // Ustaw początek bierzącego miesiąca
@@ -404,7 +658,7 @@ for ($i=1; $i < 13; $i++) {
 				 ON b.id_dev = c.id_dev
 				 INNER JOIN category_dev d
 				 ON c.id_dev = d.id_dev
-				 WHERE d.id_dev = 1 AND date_con >= '{$start_mon}' AND date_con <= '{$end_mon}';";
+				 WHERE d.id_cat = 1 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}';";
 				 $amo = pg_query($sql4);
 				 $a   = pg_fetch_array($amo);
 			}
@@ -434,7 +688,7 @@ for ($i=1; $i < 13; $i++) {
 				 ON b.id_dev = c.id_dev
 				 INNER JOIN category_dev d
 				 ON c.id_dev = d.id_dev
-				 WHERE d.id_dev = 1 AND date_con >= '{$start_mon}' AND date_con <= '{$end_mon}';";
+				 WHERE d.id_cat = 1 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}';";
 				 $amo = pg_query($sql4);
 				 $a   = pg_fetch_array($amo);
 				}
