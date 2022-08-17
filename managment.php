@@ -22,34 +22,35 @@
 		</div>
 		<div id="content-box">
 			<div class="col item-1">
+				<?php echo $message; ?>
 				<div class="add-content">
 					<h3>Dodaj plan:</h3>
 					<form action="?" method="post" class="add-content-form">
 						<input type="text" name="plan">
-							<select>
+							<select name="id_month"> 
 								<?php foreach ($p as $pl) { ?>
-									<option value="<?php echo $pl['month']; ?>"><?php echo $pl['month']; ?></option>
+									<option value="<?php echo $pl['id_month']; ?>"><?php echo $pl['month']; ?></option>
 								<?php } ?>
 							</select>
-							<select name="plan_name">
+							<select name="id_plan">
 								<?php foreach ($mo as $mon) { ?>
-									<option value="<?php echo $mon['plan_name']; ?>"><?php echo $mon['plan_name']; ?></option>
+									<option value="<?php echo $mon['id_plan']; ?>"><?php echo $mon['plan_name']; ?></option>
 								<?php } ?>
 							</select>
-						<input type="submit" name="" value="Dodaj plan">
+						<input type="submit" name="action" value="Dodaj plan">
 					</form>
 					<div class="check">
 						<p>Plan na miesiąc <?php echo $m; ?> dla telefonów: <?php echo $t['amount']; ?></p>
 						<form action="?" method="post" class="add-content-form">
-							<input type="hidden" value="">
-							<input type="submit" name="" value="Edytuj">
+							<input type="hidden" name="id_m_plan" value="<?php echo $t['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
 						</form>
 					</div>
 					<div class="check">
 						<p>Plan na miesiąc <?php echo $m; ?> dla nks: <?php echo $n['amount']; ?></p>
 						<form action="?" method="post" class="add-content-form">
-							<input type="hidden" value="">
-							<input type="submit" name="" value="Edytuj">
+							<input type="hidden" name="id_m_plan" value="<?php echo $n['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
 						</form>
 					</div>
 					<div class="check">
@@ -60,12 +61,12 @@
 					<h3>Dodaj urządzenie:</h3>
 					<form action="?" method="post" class="add-content-form">
 						<input type="text" name="name_dev">
-						<select>
-							<?php foreach ($mo as $mon) { ?>
-									<option value="<?php echo $mon['plan_name']; ?>"><?php echo $mon['plan_name']; ?></option>
-								<?php } ?>
+						<select name="id_cat">
+							<?php foreach ($c as $co) { ?>
+									<option value="<?php echo $co['id_cat']; ?>"><?php echo $co['name_cat']; ?></option>
+							<?php } ?>
 						</select>
-						<input type="submit" name="" value="Dodaj urządzenie">
+						<input type="submit" name="action" value="Dodaj urządzenie">
 					</form>
 					<div class="check">
 						<a href="../" class="link-to">Zobacz wszytskie urządzenia</a>

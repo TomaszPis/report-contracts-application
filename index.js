@@ -6,6 +6,7 @@ function slideMenu(){
 	var hover = document.getElementsByClassName('hover');
 	var linkBox = document.getElementsByClassName('link-box');
 	var close = document.getElementById('close');
+	var logout = document.getElementById('logout');
 
 
 	
@@ -22,6 +23,8 @@ function slideMenu(){
 		hover[i].style.display = 'none';
 
 		}
+
+	logout.style.display = 'flex';
 	
 	elLeftMenu.style.width = '250px';
 	
@@ -46,6 +49,7 @@ function hideMenu(){
 	var hover = document.getElementsByClassName('hover');
 	var linkBox = document.getElementsByClassName('link-box');
 	var close = document.getElementById('close');
+	var logout = document.getElementById('logout');
 
 	for (var i = 0; i < linkBox.length; i++) {
 		
@@ -59,6 +63,8 @@ function hideMenu(){
 		hover[i].style.display = '';
 
 		}
+
+	logout.style.display = 'none';	
 
 	//elLeftMenu.removeAttribute('class');
 	elLeftMenu.style.width = '60px';

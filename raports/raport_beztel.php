@@ -14,17 +14,17 @@
 		<div id="content-box">
 			<div class="col">
 				<div class="col-title">
-					<a href="?plk_with"><h2>Umowa ze sprzętem</h2></a>
+					<a href="?plk_with"><h2>PLK ze sprzętem</h2></a>
 				</div>
 			</div>
 			<div class="col">
 				<div class="col-title">
-					<a href="?plk_self"><h2>Umowa bez sprzętu</h2></a>
+					<a href="?plk_self"><h2>PLK bez sprzętu</h2></a>
 				</div>
 			</div>
 			<div class="col">
 				<div class="col-title">
-					<a href="?pb"><h2>Telewizja</h2></a>
+					<a href="?pb"><h2>Polsat Box</h2></a>
 				</div>	
 		</div>
 		<div id="contact">

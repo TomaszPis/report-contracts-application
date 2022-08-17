@@ -2,6 +2,14 @@
 
 include_once 'functions/db.ini.php';
 
+include 'functions/access.php';
+
+
+ if (!userIsLoggedIn())
+{
+	include 'login.php';
+	exit();
+}
 
 //Przypisanie liczb do miesięcy w tablicy asocjacyjnej
 $months = array(1 => 'Styczeń', 
@@ -21,6 +29,16 @@ $curr_month =  Date('m');
 //Obcny miesiąc
 $curr_year = Date('Y');
 
+//Znajdź obecny miesiąc i przypisz do niego nazwę
+for ($i=1; $i < 13 ; $i++) { 
+
+	if($i == $curr_month){
+		 $m = $months[$i]; //Przypisz nazwę miesiąca
+	}
+}
+
+
+include 'index2.php';
 
 //usuwanie umówy
 if (isset($_POST['action']) and $_POST['action'] == 'Usuń umowę') {
@@ -48,6 +66,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń umowę') {
 		
 	}
 
+
+
 	$sql4 = "SELECT * FROM contracts
 			 WHERE id_con = '{$id_con}'";
 	$number = pg_query($sql4);
@@ -57,6 +77,14 @@ if (isset($_POST['action']) and $_POST['action'] == 'Usuń umowę') {
 	$sql5 = "DELETE FROM contracts
 			 WHERE id_con = '{$id_con}';";
 	$cont = pg_query($sql5);
+
+	$sql9 = "DELETE FROM contracts_sfid 
+			 WHERE id_con = '{$id_con}';";
+	$sfid = pg_query($sql9);
+
+	$sql10 = "DELETE FROM contracts_user 
+			  WHERE id_con = '{$id_con}';";
+	$user = pg_query($sql10);
 
 	$message = 'Umowa nr ' . $number_con . ' została usunięta';
 	include_once 'accepted.php';
@@ -73,20 +101,31 @@ if (isset($_GET['contract'])) {
 
 
 	//Pobieranie podstawowych danych umowy
-	$sql = "SELECT a.id_con, a.nr_con, a.date_con, b.or_source, d.name_off FROM contracts a
+	$sql = "SELECT a.id_con, a.nr_con, a.date_con, b.or_source, d.name_off, d.name_off, g.name, g.surname, h.sfid FROM contracts a
 			 INNER JOIN source b
 			 ON a.id_con = b.id_con
 			 INNER JOIN contract_offer c
 			 ON a.id_con = c.id_con
 			 INNER JOIN offer d
 			 ON c.id_off = d.id_off
+			 INNER JOIN contracts_sfid e
+			 ON a.id_con = e.id_con
+		   	 INNER JOIN contracts_user f
+			 ON a.id_con = f.id_con
+			 INNER JOIN users g
+			 ON f.id_user = g.id
+			 INNER JOIN sfid h
+             ON e.id_sfid = h.id_sfid
 			 WHERE a.id_con = '{$id_con}'";
 		$con = pg_query($sql);
 		$c = pg_fetch_array($con);
 
 		$number = $c['nr_con'];
+		$name   = $c['name'] . ' ' . $c['surname'];
+		$sfid   = $c['sfid'];	
 		$date   = $c['date_con'];
 
+		
 		if($c['or_source'] === 't'){
 			$poz = 'Pozyskanie';
 		}
@@ -204,7 +243,13 @@ if (isset($_GET['plk_with'])) {
 				({$c['id_con']}, {$o['id_off']});";
 		pg_query($sql8);
 
+		$sql9 = "INSERT INTO contracts_sfid VALUES
+				({$c['id_con']}, {$_SESSION['id_sifd']});";
+		pg_query($sql9);
 
+		$sql10 = "INSERT INTO contracts_user VALUES
+				({$c['id_con']}, {$_SESSION['id']});";
+		pg_query($sql10);
 
 		$message = 'Umowa nr ' . $number_con . ' została zaraportowana';
 		include_once 'accepted.php';
@@ -272,8 +317,16 @@ if (isset($_GET['plk_self'])) {
 
 
 		$sql8 = "INSERT INTO contract_offer VALUES
-				({$c['id_con']}, {$o['id_off']};";
+				({$c['id_con']}, {$o['id_off']});";
 		pg_query($sql8);
+
+		$sql9 = "INSERT INTO contracts_sfid VALUES 
+				({$c['id_con']}, {$_SESSION['id_sifd']});";
+		pg_query($sql9);
+
+		$sql10 = "INSERT INTO contracts_user VALUES
+				({$c['id_con']}, {$_SESSION['id']});";
+		pg_query($sql10);
 
 		$message = 'Umowa nr ' . $number_con . ' została zaraportowana';
 		include_once 'accepted.php';
@@ -293,13 +346,7 @@ if (isset($_GET['plk_self'])) {
 //Zarządzanie danymi
 
 
-//Znajdź obecny miesiąc i przypisz do niego nazwę
-for ($i=1; $i < 13 ; $i++) { 
 
-	if($i == $curr_month){
-		 $m = $months[$i]; //Przypisz nazwę miesiąca
-	}
-}
 
 if (isset($_POST['action']) and $_POST['action'] == 'Dodaj plan'){
 
@@ -573,9 +620,15 @@ ORDER BY sfid DESC;
 */
 }
 
+
 $sql = "SELECT * FROM contracts a
-		LEFT JOIN source b
+		INNER JOIN source b
 		ON a.id_con = b.id_con
+		INNER JOIN contracts_sfid c
+		ON a.id_con = c.id_con
+		INNER JOIN sfid d
+		ON c.id_sfid = d.id_sfid
+		WHERE c.id_sfid = {$_SESSION['id_sifd']}
 		ORDER BY a.date_con DESC
 		LIMIT 5";
 $con = pg_query($sql);
@@ -701,6 +754,10 @@ for ($i=1; $i < 13; $i++) {
 }
 
 
-
-
+/*
+$sql9 = "SELECT * FROM users
+		 WHERE email = '{$_SESSION['email']}' AND password = '{$_SESSION['password']}';";
+$nam = pg_query($sql9);
+$n  = pg_fetch_array($nam);
+*/
 include_once 'home.php';

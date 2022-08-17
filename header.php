@@ -1,4 +1,17 @@
 <header>
+
+			<div id="logout">
+				<h1 class="name"><?php echo $_SESSION['name'] . ' ' . $_SESSION['surname']; ?></h1>
+				<h2 class="sfid">20001741</h2>
+				<form action="" method="post">
+					<div class="link-form-box">
+						<input type="hidden" name="action" value="logout">
+						<input type="hidden" name="goto" value="../">
+						<input type="submit" class="logout-button" value="Wyloguj">
+					</div>
+				</form>
+			</div>
+
 			<div id="hover-menu">
 				<div id="p1"></div>
 				<div id="p2"></div>
@@ -43,12 +56,12 @@
 							<i class="fa-solid fa-images"></i>
 						</div>
 						<div class="link-box">
-							<a href="">
+							<a href="?search">
 								Raporty
 							</a>
 						</div>
 						<div class="link-box hover">
-							<a href="">
+							<a href="?search">
 								Raporty
 							</a>
 						</div>

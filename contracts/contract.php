@@ -24,6 +24,22 @@
 				</div>
 				<div class="contract_row">
 					<div class="contract_col_data">
+						<p>Sprzedawca:</p>
+					</div>
+					<div class="contract_col_data">
+						<p><?php echo $name; ?></p>
+					</div>
+				</div>
+				<div class="contract_row">
+					<div class="contract_col_data">
+						<p>SFID</p>
+					</div>
+					<div class="contract_col_data">
+						<p><?php echo $sfid; ?></p>
+					</div>
+				</div>
+				<div class="contract_row">
+					<div class="contract_col_data">
 						<p>Data podpisania umowy</p>
 					</div>
 					<div class="contract_col_data">
