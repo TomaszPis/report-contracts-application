@@ -545,22 +545,6 @@ if (isset($_GET['all_plans'])) {
 	$nks = pg_query($sql2);
 	$n   = pg_fetch_all($nks);
 
-	$sql3 = "SELECT * FROM month_plan a
-				INNER JOIN plans b
-				ON a.id_plan = b.id_plan
-				INNER JOIN months c
-				ON a.id_month = c.id_month
-				INNER JOIN years d
-				ON a.id_year = d.id_year
-				INNER JOIN plans_sfid e
-				ON a.id_m_plan = e.id_m_plan
-				INNER JOIN sfid f
-				ON e.id_sfid = f.id_sfid
-				WHERE b.plan_name = 'pozyskanie voice' AND e.id_sfid = {$_SESSION['id_sfid']}
-				ORDER BY d.year, c.month DESC;";
-	$voi = pg_query($sql3);
-	$v   = pg_fetch_all($voi);
-
 	include_once 'managment/all_plans.php';
 	exit();
 
@@ -686,7 +670,7 @@ $co= pg_fetch_all($con);
 //Plany na aktualny miesiąc
 
 
-//Plan na telefony
+
 try{
 	$sql2 = "SELECT b.plan_name, c.month, d.year, a.amount FROM month_plan a
 			INNER JOIN plans b
@@ -719,8 +703,6 @@ else{
 	$min_plan = 'Jeszce nie wprowadzono planu na telefony';
 }
 
-//Plan na nks-y
-
 $sql3 = "SELECT b.plan_name, c.month, d.year, a.amount FROM month_plan a
 		INNER JOIN plans b
 		ON a.id_plan = b.id_plan
@@ -738,28 +720,7 @@ $n   = pg_fetch_array($nks);
 if($n == false){
 		$n['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
 		$n['plan_name'] = 'nks';
-}
-
-//Plan na pozyskanie voice
-
-$sql3 = "SELECT b.plan_name, c.month, d.year, a.amount FROM month_plan a
-		INNER JOIN plans b
-		ON a.id_plan = b.id_plan
-		INNER JOIN months c
-		ON a.id_month = c.id_month
-		INNER JOIN years d
-		ON a.id_year = d.id_year
-		INNER JOIN plans_sfid e
-		ON a.id_m_plan = e.id_m_plan
-		INNER JOIN sfid f
-		ON e.id_sfid = f.id_sfid 
-		WHERE b.plan_name = 'pozyskanie voice' and c.month = '{$m}' and d.year = '{$curr_year}' AND e.id_sfid = {$_SESSION['id_sfid']};";
-$vks = pg_query($sql3);
-$v   = pg_fetch_array($vks);
-if($v == false){
-		$v['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-		$v['plan_name'] = 'nks';
-}
+	}
 
 //Ilość telefonów w danym miesiącu
 
@@ -802,62 +763,12 @@ for ($i=1; $i < 13; $i++) {
 			}
 			if($a == false){
 				$a['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-				$a['plan_name'] = 'Telefony';
+				$a['plan_name'] = 'nks';
 			}
-
-			try{
-				 $sql4 = "SELECT COUNT(b.id_dev) 
-				 FROM contracts a
-				 INNER JOIN with_dev b
-				 ON a.id_con = b.id_con	
-				 INNER JOIN devices c
-				 ON b.id_dev = c.id_dev
-				 INNER JOIN category_dev d
-				 ON c.id_dev = d.id_dev
-				 INNER JOIN contracts_sfid e
-				 ON a.id_con = e.id_con
-				 INNER JOIN sfid f
-				 ON e.id_sfid = f.id_sfid
-				 WHERE d.id_cat = 2 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND e.id_sfid = {$_SESSION['id_sfid']};";
-				 $bks = pg_query($sql4);
-				 $b   = pg_fetch_array($bks);
-			}
-			catch (Exception $e) {
-				 $b = 0;
-			}
-			if($b == false){
-				$b['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-				$b['plan_name'] = 'nks';
-			}
-
-			try{
-				 $sql5 = "SELECT COUNT(a.id_con) FROM contracts a
-							INNER JOIN contracts_sfid b
-							ON a.id_con = b.id_con
-							INNER JOIN sfid c
-							ON b.id_sfid = c.id_sfid
-							INNER JOIN contract_offer d
-							ON a.id_con = d.id_con
-							INNER JOIN offer e
-							ON d.id_off = e.id_off
-							INNER JOIN source f
-							ON a.id_con = f.id_con
-				 			WHERE f.or_source = TRUE AND e.id_off = 1 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND b.id_sfid = {$_SESSION['id_sfid']};";
-				 $dks = pg_query($sql5);
-				 $d   = pg_fetch_array($dks);
-			}
-			catch (Exception $e) {
-				 $d = 0;
-			}
-			if($d == false){
-				$d['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-				$d['plan_name'] = 'Pozyskanie Voice';
-			}
-
 	}
 	else{
 			
-	if(('0' . $i) == $curr_month){	
+		if(('0' . $i) == $curr_month){	
 			 //dla pozostałych miesięcy
 			 $start_mon = $curr_year . '-' . $curr_month . '-' . '01';  // Ustaw początek bierzącego miesiąca
 			  
@@ -890,104 +801,13 @@ for ($i=1; $i < 13; $i++) {
 				}
 				if($a == false){
 					$a['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-					$a['plan_name'] = 'Telefony';
+					$a['plan_name'] = 'nks';
 			}
-
-			try{
-				 $sql4 = "SELECT COUNT(b.id_dev) 
-				 FROM contracts a
-				 INNER JOIN with_dev b
-				 ON a.id_con = b.id_con	
-				 INNER JOIN devices c
-				 ON b.id_dev = c.id_dev
-				 INNER JOIN category_dev d
-				 ON c.id_dev = d.id_dev
-				 INNER JOIN contracts_sfid e
-				 ON a.id_con = e.id_con
-				 INNER JOIN sfid f
-				 ON e.id_sfid = f.id_sfid
-				 WHERE d.id_cat = 2 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND e.id_sfid = {$_SESSION['id_sfid']};";
-				 $bks = pg_query($sql4);
-				 $b   = pg_fetch_array($bks);
-				}
-				catch (Exception $e) {
-				 $b = 0;
-				}
-				if($b == false){
-					$b['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-					$b['plan_name'] = 'nks';
-
-			}
-
-			try{
-				 $sql5 = "SELECT COUNT(a.id_con) FROM contracts a
-							INNER JOIN contracts_sfid b
-							ON a.id_con = b.id_con
-							INNER JOIN sfid c
-							ON b.id_sfid = c.id_sfid
-							INNER JOIN contract_offer d
-							ON a.id_con = d.id_con
-							INNER JOIN offer e
-							ON d.id_off = e.id_off
-							INNER JOIN source f
-							ON a.id_con = f.id_con
-				 			WHERE f.or_source = TRUE AND e.id_off = 1 AND a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND b.id_sfid = {$_SESSION['id_sfid']};";
-				 $dks = pg_query($sql5);
-				 $d   = pg_fetch_array($dks);
-				}
-				catch (Exception $e) {
-				 $d = 0;
-				}
-				if($d == false){
-					$d['amount'] = 'Dla miesiąca ' . $m . ' nie wprowadzono jeszcze planów';
-					$d['plan_name'] = 'Pozyskanie Voice';
-
-			}
-		
 		}
 	}
+
 }
 
-
-
-
-//Oblicz procent sprzedanych umów w skali miesiąca
-//1. Telefony
-if($a[0] > 0){
-	$phones_pr =  round(($a[0]/$t['amount'])*100, 2);
-}
-else{
-	$phones_pr = 0;
-}
-
-$to_min = $min_plan - $a[0];
-
-if ($to_min < 0) {
-	
-	$to_min = 'Plan minimum wykonany';
-}
-
-
-
-//Oblicz procent sprzedanych umów w skali miesiąca
-//2.nks
-if($b[0] > 0){
-	$nks_pr =  round(($b[0]/$n['amount'])*100, 2);
-}
-else{
-	$nks_pr = 0;
-}
-
-
-
-//Oblicz procent sprzedanych umów w skali miesiąca
-//2.Pozyskanie Voice
-if($d[0] > 0){
-	$voice_pr =  round(($d[0]/$v['amount'])*100, 2);
-}
-else{
-	$voice_pr = 0;
-}
 
 /*
 $sql9 = "SELECT * FROM users

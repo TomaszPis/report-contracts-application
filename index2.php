@@ -11,7 +11,11 @@ if (isset($_POST['action']) and $_POST['action'] == 'Szukaj'){
 					$sql = "SELECT * FROM contracts a
 							LEFT JOIN source b
 							ON a.id_con = b.id_con
-					  		WHERE a.date_con >= '{$date1}' AND a.date_con <= '{$date2}'
+							INNER JOIN contracts_sfid c
+							ON a.id_con = c.id_con
+							INNER JOIN sfid d
+							ON c.id_sfid = d.id_sfid
+					  		WHERE a.date_con >= '{$date1}' AND a.date_con <= '{$date2}' AND c.id_sfid = {$_SESSION['id_sfid']}
 					  		ORDER BY a.date_con DESC;";
 					 $con = pg_query($sql);
 					 
@@ -71,7 +75,11 @@ for ($i=1; $i < 13; $i++) {
 				 $sql = "SELECT * FROM contracts a
 								LEFT JOIN source b
 								ON a.id_con = b.id_con
-						  		WHERE a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}'
+								INNER JOIN contracts_sfid c
+								ON a.id_con = c.id_con
+								INNER JOIN sfid d
+								ON c.id_sfid = d.id_sfid
+						  		WHERE a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND c.id_sfid = {$_SESSION['id_sfid']}
 						  		ORDER BY a.date_con DESC;";
 				 $con = pg_query($sql);
 				 $co   = pg_fetch_all($con);
@@ -97,7 +105,11 @@ for ($i=1; $i < 13; $i++) {
 				  $sql = "SELECT * FROM contracts a
 								LEFT JOIN source b
 								ON a.id_con = b.id_con
-						  		WHERE a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}'
+						  		INNER JOIN contracts_sfid c
+								ON a.id_con = c.id_con
+								INNER JOIN sfid d
+								ON c.id_sfid = d.id_sfid
+						  		WHERE a.date_con >= '{$start_mon}' AND a.date_con <= '{$end_mon}' AND c.id_sfid = {$_SESSION['id_sfid']}
 						  		ORDER BY a.date_con DESC;";
 				 $con = pg_query($sql);
 				 $co   = pg_fetch_all($con);

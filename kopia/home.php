@@ -1,7 +1,9 @@
 
 <!DOCTYPE html>
 <html>
-<?php include 'head.php'; ?>
+<head>
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
 <body>
 
 </body>
@@ -33,7 +35,7 @@
 							?>
 							
 								<tr class="table-content">
-									<th><?php echo $c['nr_con']; ?></th><th><?php echo $c['date_con']; ?></th><th><?php echo $or; ?></th><th><a href="?contract&id_con=<?php echo $c['id_con']; ?>" class="table-link">Zobacz więcej</a></th>
+									<th><?php echo $c['nr_con']; ?></th><th><?php echo $c['date_con']; ?></th><th><?php echo $or; ?></th><th><a href="?contract&id_con=<?php echo $c['id_con']; ?>">Zobacz więcej</a>
 								</tr>
 						<?php } ?>
 					</table>	
@@ -45,37 +47,19 @@
 				</div>
 				<div class="ann">
 					<div class="announcement">
-						<p><?php echo $t['plan_name']; ?>:</p>
+						<p>Telefony:</p>
                         <div class="month-plan">
-                            <p><?php echo $a[0] . ' (' . $phones_pr  . '%) / ' . $min_plan . ' / ' . $t['amount']; ?></p>
+                            <p><?php echo $a[0] . '(' . $phones_pr  . '%) / ' . $min_plan . ' / ' .$t['amount']; ?></p>
                             <div class="month-phase" style="width: <?php echo str_replace(',', '.', $phones_pr); ?>%;"></div>
                         </div>
 					</div>
 					<div class="announcement">
-						<p><?php echo $n['plan_name']; ?>:</p>
+						<p>Telefony:</p>
                         <div class="month-plan">
-                            <p><?php echo $b[0] . ' (' . $nks_pr  . '%) / '  . $n['amount']; ?></p>
-                            <div class="month-phase" style="width: <?php echo str_replace(',', '.', $nks_pr); ?>%;"></div>
+                            <p>30/80/100</p>
+                            <div class="month-phase" style="width: 30%;"></div>
                         </div>
 					</div>
-					<div class="announcement">
-						<p><?php echo $v['plan_name']; ?>:</p>
-                        <div class="month-plan">
-                            <p><?php echo $d[0] . ' (' . $voice_pr  . '%) / '  . $v['amount']; ?></p>
-                            <div class="month-phase" style="width: <?php echo str_replace(',', '.', $voice_pr); ?>%;"></div>
-                        </div>
-					</div>
-				</div>
-			</div>
-			<div class="col links item-3">
-				<div class="col-title">
-					<h2>Przydatne linki</h2>
-				</div>
-				<div class="col-box flex-row">
-					<a href="" class="col-box-link">Link 1</a>
-					<a href="" class="col-box-link">Link 2</a>
-					<a href="" class="col-box-link">Link 3</a>
-					<a href="" class="col-box-link">Link 4</a>
 				</div>
 			</div>
 		</div>

@@ -19,51 +19,100 @@
 			<div id="contract">
 				<div class="contract-col">
 					<h3>Telefony</h3>
-					<?php foreach ($t as $te) { ?>					
-						<div class="contract_row tables-plan">
-							<div class="contract_col_data left-con">
-								<p><?php echo $te['month'] . ' ' . $te['year']; ?></p>
+					<?php 
+
+						if($t > 0){
+							foreach ($t as $te) { ?>					
+							<div class="contract_row tables-plan">
+								<div class="contract_col_data left-con">
+									<p><?php echo $te['month'] . ' ' . $te['year']; ?></p>
+								</div>
+								<div class="contract_col_data rigt-con">
+									<p>Ilość: <?php echo $te['amount']; ?></p>
+								</div>
+								<div id="contract-buttons edit">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $te['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Edytuj" class="edit-button">
+									</form>
+								</div>
+								<div id="contract-buttons delete">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $te['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Usuń" class="edit-button delete-button">
+									</form>
+								</div>
 							</div>
-							<div class="contract_col_data rigt-con">
-								<p>Ilość: <?php echo $te['amount']; ?></p>
-							</div>
-							<div id="contract-buttons edit">
-								<form action="?" method="post">	
-									<input type="hidden" name="id_m_plan" value="<?php echo $te['id_m_plan']; ?>" />
-									<input type="submit" name="action" value="Edytuj" class="edit-button">
-								</form>
-							</div>
-							<div id="contract-buttons delete">
-								<form action="?" method="post">	
-									<input type="hidden" name="id_m_plan" value="<?php echo $te['id_m_plan']; ?>" />
-									<input type="submit" name="action" value="Usuń" class="edit-button delete-button">
-								</form>
-							</div>
-						</div>
-					<?php } ?>
+					<?php }		
+						}
+						else{
+							echo "<h2>Brak danych</h2>";
+						} 
+					?>
 				</div>
 				<div class="contract-col">
 					<h3>NKSy</h3>
-					<div class="contract_row tables-plan">
-						<div class="contract_col_data left-con">
-							<p>Sierpień 2022</p>
-						</div>
-						<div class="contract_col_data rigt-con">
-							<p>Ilość: 45</p>
-						</div>
-						<div id="">
-							<form action="?" method="post">	
-								<input type="hidden" name="id_m_plan" value="<?php echo $id_m_plan; ?>" />
-								<input type="submit" name="action" value="Edytuj" class="edit-button">
-							</form>
-						</div>
-						<div id="">
-							<form action="?" method="post">	
-								<input type="hidden" name="id_m_plan" value="<?php echo $id_m_plan; ?>" />
-								<input type="submit" name="action" value="Usuń" class="edit-button delete-button">
-							</form>
-						</div>
-					</div>
+					<?php 
+						if($n > 0){
+							foreach ($n as $ne) { ?>					
+							<div class="contract_row tables-plan">
+								<div class="contract_col_data left-con">
+									<p><?php echo $ne['month'] . ' ' . $ne['year']; ?></p>
+								</div>
+								<div class="contract_col_data rigt-con">
+									<p>Ilość: <?php echo $ne['amount']; ?></p>
+								</div>
+								<div id="contract-buttons edit">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $ne['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Edytuj" class="edit-button">
+									</form>
+								</div>
+								<div id="contract-buttons delete">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $ne['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Usuń" class="edit-button delete-button">
+									</form>
+								</div>
+							</div>
+					<?php }
+						}
+						else{
+							echo "<h2>Brak danych</h2>";
+						}  
+					?>
+				</div>
+				<div class="contract-col">
+					<h3>Pozyskanie Voice</h3>
+					<?php 
+						if($v > 0){
+							foreach ($v as $ve) { ?>					
+							<div class="contract_row tables-plan">
+								<div class="contract_col_data left-con">
+									<p><?php echo $ve['month'] . ' ' . $ve['year']; ?></p>
+								</div>
+								<div class="contract_col_data rigt-con">
+									<p>Ilość: <?php echo $ve['amount']; ?></p>
+								</div>
+								<div id="contract-buttons edit">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $ve['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Edytuj" class="edit-button">
+									</form>
+								</div>
+								<div id="contract-buttons delete">
+									<form action="?" method="post">	
+										<input type="hidden" name="id_m_plan" value="<?php echo $ve['id_m_plan']; ?>" />
+										<input type="submit" name="action" value="Usuń" class="edit-button delete-button">
+									</form>
+								</div>
+							</div>
+					<?php }
+						}
+						else{
+							echo "<h2>Brak danych</h2>";
+						}  
+					?>
 				</div>
 			</div>		
 		</div>
