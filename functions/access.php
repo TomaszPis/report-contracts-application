@@ -17,14 +17,20 @@ function userIsLoggedIn()
 		if (databaseContainsUser($e, $p))
 		{
 			$sql = "SELECT * FROM users a
+					WHERE email = '{$e}' AND password = '{$p}';";
+					$nam = pg_query($sql);
+					$n  = pg_fetch_array($nam);
+
+			$sql2 = "SELECT * FROM users a
 					 INNER JOIN sfid_users b
 					 ON a.id = b.id_user
 					 INNER JOIN sfid c
 					 ON b.id_sfid = c.id_sfid
 					 WHERE email = '{$e}' AND password = '{$p}';";
-					 $nam = pg_query($sql);
-					 $n  = pg_fetch_array($nam);
+			 $sfi = pg_query($sql2);
+			 $s = pg_fetch_array($sfi);
 			
+
 			session_start();
 			$_SESSION['loggedIn'] = TRUE;
 			$_SESSION['email'] = $e;
@@ -32,9 +38,10 @@ function userIsLoggedIn()
 			$_SESSION['name'] = $n['name'];
 			$_SESSION['surname'] = $n['surname'];
 			$_SESSION['id'] = $n['id'];
-			$_SESSION['id_sifd'] = $n['id_sfid'];
-			$_SESSION['sfid'] = $n['sfid'];
+			$_SESSION['id_sfid'] = $s['id_sfid'];
+			$_SESSION['sfid'] = $s['sfid'];
 			
+
 			
 			return TRUE;
 		}
@@ -47,7 +54,7 @@ function userIsLoggedIn()
 			unset($_SESSION['name']);
 			unset($_SESSION['surname']);
 			unset($_SESSION['id']); 
-			unset($_SESSION['id_sifd']); 
+			unset($_SESSION['id_sfid']); 
 			unset($_SESSION['sfid']); 
 			$GLOBALS['loginError'];
 			return FALSE;
@@ -65,7 +72,7 @@ function userIsLoggedIn()
 		unset($_SESSION['name']);
 		unset($_SESSION['surname']);
 		unset($_SESSION['id']);
-		unset($_SESSION['id_sifd']);
+		unset($_SESSION['id_sfid']);
 		unset($_SESSION['sfid']);
 		header('Location: .');
 		exit();

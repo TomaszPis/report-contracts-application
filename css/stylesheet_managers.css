@@ -1,0 +1,111 @@
+.item-sfid{
+	width: 600px;	
+
+
+    background: none;
+    box-shadow: none;
+    color: #333333;
+}
+
+.item-sfid, .sfid-name{
+	border: solid 1px #0b525b;
+}
+
+.item-sfid-datas{
+	border: none;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.sfid-name{
+	width: 400px;
+	text-align: left;
+	transform: translateY(-80%);
+	background: #ffffff;
+}
+
+
+tr{	
+	background: #1b3a4b;	
+  	color: #ffffff;
+  	margin: 10px 0;
+ 	 text-align: center;
+}
+
+.sfid-link{
+	display: block;
+	width: 100%;
+}
+
+.sfid-link:hover{
+	cursor: pointer;
+}
+
+tr:nth-child(even){
+	background: #006466;
+}
+
+td{
+	margin: 15px 0px;
+}
+
+
+#short-menu{
+
+	width: 100%;
+
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: row;
+
+	margin-bottom: 80px;
+}
+
+.short-menu-link{
+	width: 180px;
+	height: 40px;
+	font-size: 1em;
+
+	margin-right: 20px;
+}
+
+.short-menu-link a, .short-menu-link a:visited{
+	display: block;
+	width: 100%;
+	height: 100%;
+
+	line-height: 40px;
+	text-align: center;
+	font-weight: bold;
+	background: #1b3a4b; 
+}
+
+.sfid-column{
+	width: 25%;
+	text-align: center;
+}
+
+.month-link a, .month-link a:visited {
+	display: block;
+	width: 150px;
+	height: 40px;
+	background: #0b525b;
+
+	text-align: center;
+	line-height: 40px;
+	margin-top: 20px;
+}
+
+
+#sfid-month-table{
+	width: 130%;
+}
+
+#sfid-month-table table tr:nth-child(even){
+	background: #006466;
+}
+
+.sfid-plans-datas{
+	background: #16213E;
+}

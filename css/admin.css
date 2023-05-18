@@ -1,0 +1,236 @@
+body{
+	background: #f2f2f2;
+
+	overflow-x: hidden;
+}
+
+#container{
+	font-family: poppins-medium;
+}
+
+#content-box{
+	width: 95%;
+}
+
+#add_and_search_users{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.admin-col, #all_users table{
+	box-shadow: 0 0 5px #888888;
+
+}
+
+.admin-col{
+
+	width: 350px;
+	margin: 1% 20px;
+
+	border: 2px solid #006466;
+
+	background: #ffffff;
+}
+
+.new_user_add{
+	width: 100%;
+}
+
+.add_user_title{
+	height: 90px;
+}
+
+.action_user_link{
+	width: 140px;
+	height: 50px;
+}
+
+.action_user_link a{
+	display: block;
+	height: 100%;
+	width: 100%;
+
+	background: #212f45;
+
+	line-height: 50px;
+	text-align: center;
+}
+
+.add_user_title{
+	height: 90px;
+}
+
+.data_user, .action_user{
+	padding: 10px;
+}
+
+
+.data_user h2, .action_user h2{
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+.user ul{
+	list-style-type: none;
+}
+
+.user ul li{
+	margin-bottom: 5px;
+}
+
+
+#contact_form{
+	width: 95%;
+
+	font-size: 1rem;
+}
+
+#contact_form h1{
+	text-align: left;
+	font-size: 1.3rem;
+	margin: 3% 0; 
+}
+
+select{
+	background: #006466;
+	color: #ffffff;
+
+	border: none;
+
+	cursor: pointer;
+}
+
+#all_users, #all_sfid_and_users{
+	width: 100%;
+	min-height: 500px;
+
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-direction: row;
+
+	padding: 20px;
+	margin: 5% 0;
+
+
+}
+
+.head_table{
+	background: #212f45;
+}
+
+.user_table{
+	width: 48%;
+	min-width: 600px;
+
+	margin: 0 10px;
+}
+
+ #all_users table{
+ 	width: 100%;
+ 	background: #212f45;
+ }
+
+ #all_users table tr{
+ 	margin: 0;
+ }
+
+.sfid_users{
+	width: 100%;
+}
+
+.list_sfid_users, .list_sfid_users li{
+	width: 100%;
+	list-style-type: none;
+}
+
+.list_sfid_users li{
+	display: flex;
+	flex-direction: row;
+}
+
+.name_sfid_user, .action_sfid_user{
+	width: 50%;
+	margin: 0;
+	padding: 2px;
+}
+
+
+.action_sfid_user{
+	text-align: center;
+}
+
+.action_sfid_user a, .sfid_action_link a{
+	display: block;
+	height: 100%;
+	width: 60%;
+	background:  #212f45;
+
+	margin: 0 auto;
+	transition: 500ms;
+
+}
+
+.action_sfid_user a:hover, .sfid_action_link a:hover{
+	background:  #006466;
+}
+
+.sfid_actions{
+	width: 70%;
+	margin: 0 auto;
+
+	height: 50px;
+
+}
+
+.sfid_action_link a{
+	text-align: center;
+
+	margin: 10px auto
+}
+
+.delete_sfid a{
+	background: #e01e37;
+}
+
+
+
+
+@media screen and (max-width: 520px){
+
+	.admin-col{
+		margin: 2% 2%;
+	}
+
+	#all_users{
+		overflow-x: scroll;
+	}
+
+	.user_table{
+		transform: translateX(20%);
+	}
+}
+
+
+@media screen and (max-device-width: 520px){
+
+.admin-col{
+
+	width: 90%;
+	margin: 2% 2%;
+
+	border: 1px solid black;
+}
+
+#contact_form{
+	font-size: 1.2em;
+}
+
+#contact_form input[type=text], #contact_form input[type=email]{
+	height: 50px;
+}
+
+}
