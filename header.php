@@ -1,12 +1,12 @@
 <header>
 
 			<div id="logout">
-				<h1 class="name"><?php echo $_SESSION['name'] . ' ' . $_SESSION['surname']; ?></h1>
-				<h2 class="sfid">20001741</h2>
+				<h1 class="name"><i class="fa-solid fa-user"></i><?php echo ' ' . $_SESSION['name'] . ' ' . $_SESSION['surname']; ?></h1>
+				<h2 class="sfid"><?php echo $_SESSION['sfid']; ?>
+						<input type="hidden" name="goto" value="../"> </h2>
 				<form action="" method="post">
 					<div class="link-form-box">
 						<input type="hidden" name="action" value="logout">
-						<input type="hidden" name="goto" value="../">
 						<input type="submit" class="logout-button" value="Wyloguj">
 					</div>
 				</form>
@@ -38,7 +38,7 @@
 					</li>
 					<li>
 						<div class="icon-box">
-							<i class="fa-solid fa-circle-user"></i>
+							<i class="fa-sharp fa-solid fa-file"></i>
 						</div>
 						<div class="link-box">
 							<a href="?raport">
@@ -53,7 +53,7 @@
 					</li>
 					<li>
 						<div class="icon-box">
-							<i class="fa-solid fa-images"></i>
+							<i class="fa-solid fa-chart-simple"></i>
 						</div>
 						<div class="link-box">
 							<a href="?search">
@@ -68,7 +68,7 @@
 					</li>
 					<li>
 						<div class="icon-box">
-							<i class="fa-solid fa-comment"></i>
+							<i class="fa-solid fa-list-check"></i>
 						</div>
 						<div class="link-box">
 							<a href="?managment">
@@ -83,16 +83,16 @@
 					</li>
 					<li>
 						<div class="icon-box">
-							<i class="fa-solid fa-address-book"></i>
+							<i class="fa-solid fa-gears"></i>
 						</div>
 						<div class="link-box">
-							<a href="?workers">
-								Kontakty
+							<a href="?settings">
+								Ustawienia
 							</a>
 						</div>
 						<div class="link-box hover">
-							<a href="?workers">
-								Kontakty
+							<a href="?settings">
+								Ustawienia
 							</a>
 						</div>
 					</li>
