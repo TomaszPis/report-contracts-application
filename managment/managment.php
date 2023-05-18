@@ -38,16 +38,57 @@
 							</select>
 						<input type="submit" name="action" value="Dodaj plan">
 					</form>
-
 					<div class="check">
-						<p>Plan na miesiąc <?php echo $m; ?> dla telefonów: <?php echo $t['amount']; ?></p>
+						<p><?php echo $m; ?> pozyskanie voice: <b><?php echo $v['amount']; ?></b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $v['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?>  zatrzymanie voice: <b><?php echo $continuation_plan['amount']; ?></b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $continuation_plan['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?> pozyskanie tv: <b><?php echo $tv_month_plan['amount']; ?></b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $tv_month_plan['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?>  zatrzymanie tv: <b><?php echo $tv_continuation_month_plan['amount']; ?></b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $tv_continuation_month_plan['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?>  pozyskanie DATA: <b><?php echo $DATA_month_plan['amount']; ?> </b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $DATA_month_plan['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?>  zatrzymanie DATA: <b><?php echo $DATA_continuation_month_plan['amount']; ?></b></p>
+						<form action="?" method="post" class="add-content-form">
+							<input type="hidden" name="id_m_plan" value="<?php echo $DATA_continuation_month_plan['id_m_plan']; ?>">
+							<input type="submit" name="action" value="Edytuj">
+						</form>
+					</div>
+					<div class="check">
+						<p><?php echo $m; ?>  telefony: <b><?php echo $t['amount']; ?></b></p>
 						<form action="?" method="post" class="add-content-form">
 							<input type="hidden" name="id_m_plan" value="<?php echo $t['id_m_plan']; ?>">
 							<input type="submit" name="action" value="Edytuj">
 						</form>
 					</div>
 					<div class="check">
-						<p>Plan na miesiąc <?php echo $m; ?> dla nks: <?php echo $n['amount']; ?></p>
+						<p><?php echo $m; ?>  nks: <b> <?php echo $n['amount']; ?></b></p>
 						<form action="?" method="post" class="add-content-form">
 							<input type="hidden" name="id_m_plan" value="<?php echo $n['id_m_plan']; ?>">
 							<input type="submit" name="action" value="Edytuj">
